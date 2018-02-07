@@ -4,10 +4,10 @@ const settings = require("./settings"); // settings.json
 var knex = require('knex')({
   client: 'pg',
   connection: {
-    host : settings.hostname,
-    user : settings.user,
-    password : settings.password,
-    database : settings.database
+    host: settings.hostname,
+    user: settings.user,
+    password: settings.password,
+    database: settings.database
   }
 });
 
@@ -29,11 +29,13 @@ function outputResults(rows) {
   });
 }
 
+console.log("Searching ...");
+
 knex.select().from('famous_people')
   .where('first_name', searchWord)
   .orWhere('last_name', searchWord)
   .asCallback(function(err, rows){
-    if (err) return console.error(err);
+    if (err) { return console.error(err); }
     outputResults(rows);
   }).finally(function() {
     knex.destroy();
